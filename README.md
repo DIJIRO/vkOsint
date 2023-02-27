@@ -77,11 +77,11 @@ Input
 Output
 ```json
 {
-    'accessToken': self.accessToken,
-    'secret': self.secret,
-    'userId': self.userId,
-    'webviewRefreshToken': self.webviewRefreshToken,
-    'webviewAccessToken': self.webviewAccessToken
+    "accessToken": "[self.accessToken]",
+    "secret": "[self.secret]",
+    "userId": "[self.userId]",
+    "webviewRefreshToken": "[self.webviewRefreshToken]",
+    "webviewAccessToken": "[self.webviewAccessToken]"
 }
 ```
 ### changeProxy function 
