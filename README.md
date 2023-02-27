@@ -36,9 +36,9 @@ with open('results.json','w') as file:
 ```
 ## Documentation
 
-###vkOsint
+### vkOsint
 
-####Main class
+#### Main class
 Input
 * proxy (default = None)
 * verbose (default = True)
@@ -48,18 +48,18 @@ from vkOsint import vkOsint
 
 vkInstance = vkOsint(proxy='[proxy]',sessionVerify=True,verbose=False)
 ```
-###login function
+### login function
 
-####Basic authorization
+#### Basic authorization
 Input
 * username (phone number of parser account)
 * password (Password of parser account)
 ``` python
 vkInstance.login(username='[login]',password='[password]')
 ```
-###tokenAuth function 
+### tokenAuth function 
 
-####Skip the auth by providing parser account's tokens
+#### Skip the auth by providing parser account's tokens
 Input
 * username
 * accessToken
@@ -68,9 +68,9 @@ Input
 ``` python
 vkInstance.tokenAuth(username='[login]',accessToken='[accessToken]',secret='[secret]',userId='[userId]')
 ```
-###getTokens
+### getTokens
 
-####Get auth tokens of authorized account in vkOsint instance
+#### Get auth tokens of authorized account in vkOsint instance
 Input
 * None
 
@@ -84,9 +84,9 @@ Output
     'webviewAccessToken': self.webviewAccessToken
 }
 ```
-###changeProxy function 
+### changeProxy function 
 
-####Change the proxy of current vkOsint instance
+#### Change the proxy of current vkOsint instance
 Input
 * proxy
 ``` python
