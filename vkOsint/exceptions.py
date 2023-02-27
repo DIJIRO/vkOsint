@@ -7,7 +7,6 @@ class ClientError(SystemExit):
 class ProxyError(ClientError):
     """Sorry, there was a problem with your request"""
 
-
 class WrongAuthCredientals(ClientError):
     """Wrong username or password"""
 

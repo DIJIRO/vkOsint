@@ -4,7 +4,6 @@ import hashlib
 
 class Utils:
     def __init__(self):
-        print('Utils init')
         self.genUa()
         self.genAuthHeaders()
         self.genBaseHeaders()
@@ -41,6 +40,31 @@ class Utils:
             'X-Vk-Android-Client': 'new',
             'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
         }
+
+    def writeOutput(self,message):
+        if self.verbose:
+            print(message)
+
+    def changeProxy(self,proxy: str,sessionVerify: bool = True):
+        self.setProxy(proxy,sessionVerify)
+
+    def setTokens(self,authData):
+        self.accessToken = authData.get('access_token',None)
+        self.secret =  authData.get('secret',None)
+        self.userId =  authData.get('user_id',None)
+        self.webviewRefreshToken = authData.get('webview_refresh_token',None)
+        self.webviewAccessToken = authData.get('webview_access_token',None)
+
+    def getTokens(self):
+        return {
+            'accessToken':self.accessToken,
+            'secret':self.secret,
+            'userId':self.userId,
+            'webviewRefreshToken':self.webviewRefreshToken,
+            'webviewAccessToken':self.webviewAccessToken
+
+        }
+        
 
 
 

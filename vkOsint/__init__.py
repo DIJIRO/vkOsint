@@ -9,15 +9,17 @@ from vkOsint.mixins.parsers import Parsers
 class vkOsint(Api,Utils,Parsers):
 
     def __init__(self,
-                settings: dict = {},
+                verbose: bool = True,
                 proxy: str = None,
-                delay_range: list = None,
-                **kwargs
+                sessionVerify: bool = True
+                
     ):
         super().__init__()
-        self.setProxy(proxy)
+        self.verbose = verbose
+        self.setProxy(proxy,sessionVerify)
         
-    def setProxy(self,proxy):
+    def setProxy(self,proxy,sessionVerify):
+        self.session.verify = sessionVerify
         if proxy:
             assert isinstance(proxy,str),f'Proxy must be string format, but now its {type(proxy)}'
             proxyHref = "{scheme}{href}".format(

@@ -1,22 +1,24 @@
 import requests
-from urllib3.exceptions import MaxRetryError,NewConnectionError
-from socket import gaierror
 import json
 import urllib
 import hashlib
+from urllib3.exceptions import MaxRetryError,NewConnectionError
+from socket import gaierror
+
 from vkOsint.exceptions import *
+
 class Api:
     def __init__(self):
-        print('API init')
         self.session = requests.session()
         super().__init__()
     
-    def login(self,username: str,password: str):
+    def login(self,
+              username: str,
+              password: str
+    ):
         self.username = username
         self.password = password
         self.genDeviceHash()
-        print(username)
-        print(password)
         authParams = {
             'scope': 'nohttps,all',
             'client_id': '2274003',
@@ -39,13 +41,22 @@ class Api:
         except (requests.exceptions.ProxyError,MaxRetryError,NewConnectionError,gaierror):
             raise ProxyError("Lost connection to server, Inavild proxy")
 
+    def tokenAuth(self,
+                  username: str,
+                  accessToken: str,
+                  secret:str,
+                  userId: str
+    ):
+        self.username = username
+        self.setTokens({'access_token':accessToken,'secret':secret,'user_id':userId})
+
     def updateTokens(self):
         data = {'v': '5.96',
                 'https': '1',
                 'timestamp': '0',
                 'receipt2': 'eyJhbGciOiAibm9uZSJ9.eyJub25jZSI6ICJ0ZXN0PT0ifQ.',
                 'device_id': self.deviceUuid,
-                'receipt': 'yssp9o9p9pamz5t-nvmq8spgwtin3e0==',  # статические параметры ( можно не обращать внимание )
+                'receipt': 'yssp9o9p9pamz5t-nvmq8spgwtin3e0==',
                 'lang': 'ru',
                 'access_token': self.accessToken
                 }
@@ -57,16 +68,14 @@ class Api:
         self.phoneNumbers = phoneNumbers
         self.parsedData = {}
         for self.phoneNumber in phoneNumbers:
+            self.writeOutput(f'Searching for {self.phoneNumber}')
+            self.profileData = {}  
             self.searchContact()
             self.contactDataParser()
-            self.getProfile()
+            if self.found:
+                self.getProfile()
             self.profileParser()
         return self.parsedData
-
-
-
-
-
 
     def searchContact(self):
         contacts = {
@@ -101,24 +110,21 @@ class Api:
             'skip_hidden': '1',
             'photo_sizes': '1',
             'func_v': '8',
-            'access_keys':  self.accessKey,  # ВАЖНО!!!
+            'access_keys':  self.accessKey,
             'device_id': self.deviceUuid,
             'photo_count': '25',
             'lang': 'ru',
             'ref': 'profile',
-            'user_id': self.userId,  # id профиля бота
+            'user_id': self.userId,
             'access_token': self.accessToken
 
         }
         self.profileData = self.makeRequest('execute.getFullProfileNewNew', data)
 
-
     def makeRequest(self,method,data):
         baseUrl = 'https://api.vk.com/method/'
         sigStr = f'/method/{method}?' + urllib.parse.unquote(urllib.parse.urlencode(data)) + self.secret
-        print(sigStr)
-        sig = hashlib.md5(sigStr.encode()).hexdigest()
-        print(sig)
+        sig = hashlib.md5(sigStr.encode()).hexdigest() #Signature generate
         data['sig'] = sig
         try:
             response = self.session.post(f'https://api.vk.com/method/{method}', headers=self.baseHeaders, data=data)
