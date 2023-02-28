@@ -1,5 +1,8 @@
 ###
-
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/vkosint)
+[![Downloads](https://pepy.tech/badge/vkosint)](https://pepy.tech/project/vkosint)
+[![Downloads](https://pepy.tech/badge/vkosint/month)](https://pepy.tech/project/vkosint)
+[![Downloads](https://pepy.tech/badge/vkosint/week)](https://pepy.tech/project/vkosint)
 
 ## vkOsint - Python package for searching vk accounts by phone number
 
